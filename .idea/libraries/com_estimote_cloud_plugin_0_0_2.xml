@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.estimote:cloud-plugin-0.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/cloud-plugin-0.0.2.aar/0909ef135df716c272f40ae73585150c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/cloud-plugin-0.0.2.aar/0909ef135df716c272f40ae73585150c/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.estimote/cloud-plugin/0.0.2/910b231256b2e123c17dfa5857afe73cce3cbcfb/cloud-plugin-0.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
