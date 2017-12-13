@@ -39,6 +39,22 @@
         <activity
             android:name=".view.activity.SearchActivity"
             android:screenOrientation="portrait" />
+
+
+        <service
+            android:name=".background_task.BeaconScanningService"
+            android:enabled="true" >
+        </service>
+
+        <receiver
+            android:name=".background_task.BeaconScanningRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="delusion.achievers.eva.ActivityRecognition.RestartSensor"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

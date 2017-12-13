@@ -1,6 +1,7 @@
 package delusion.achievers.eva.view.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +26,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import delusion.achievers.eva.R;
+import delusion.achievers.eva.background_task.BeaconScanningService;
 import delusion.achievers.eva.model.BeaconValues;
 import delusion.achievers.eva.model.ModelManager;
 import delusion.achievers.eva.model.Sections;
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private BeaconManager beaconManager;
     private BeaconRegion region;
     private boolean is_need = false;
+    Intent mServiceIntent;
+    private BeaconScanningService mSensorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +147,25 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+
+        mSensorService = new BeaconScanningService(MainActivity.this);
+        mServiceIntent = new Intent(MainActivity.this, mSensorService.getClass());
+        if (!isMyServiceRunning(mSensorService.getClass())) {
+            startService(mServiceIntent);
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
     }
 
     private void setAdapter() {
@@ -231,6 +255,14 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(mServiceIntent);
+        Log.i("MAINACT", "onDestroy!");
+        super.onDestroy();
+
     }
 
     public void onEventMainThread(String message) {

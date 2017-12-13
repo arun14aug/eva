@@ -41,7 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         MyViewHolder(View view) {
             super(view);
-            name = view.findViewById(R.id.name);
+            name = view.findViewById(R.id.txt_title);
             arrow = view.findViewById(R.id.img_arrow);
             imageView = view.findViewById(R.id.img_category);
 

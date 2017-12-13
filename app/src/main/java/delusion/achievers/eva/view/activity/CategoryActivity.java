@@ -1,6 +1,7 @@
 package delusion.achievers.eva.view.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,10 +54,14 @@ public class CategoryActivity extends Activity {
             }
         });
         ImageView searchView = findViewById(R.id.ic_search);
+        searchView.setVisibility(View.VISIBLE);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
+                if (!Utils.isEmptyString(section_id))
+                    intent.putExtra("section_id", section_id);
+                startActivity(intent);
             }
         });
 

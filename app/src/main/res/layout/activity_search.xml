@@ -34,7 +34,7 @@
                 android:layout_margin="@dimen/padding_10"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/app_name"
+                android:hint="@string/action_search"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_xlarge" />
         </LinearLayout>

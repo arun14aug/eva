@@ -32,6 +32,15 @@ public class BeaconsManager {
     private ArrayList<BeaconValues> beaconValuesArrayList;
     private ArrayList<Category> categoryArrayList;
     private ArrayList<Spots> spotsArrayList;
+    private ArrayList<SearchContent> searchContentArrayList = new ArrayList<>();
+
+    public ArrayList<SearchContent> getSearchContentArrayList() {
+        return searchContentArrayList;
+    }
+
+    public void setSearchContentArrayList(ArrayList<SearchContent> searchContentArrayList) {
+        this.searchContentArrayList = searchContentArrayList;
+    }
 
     public ArrayList<BeaconValues> getNames(Activity activity, boolean shouldRefresh, String url) {
         if (shouldRefresh)
@@ -137,6 +146,13 @@ public class BeaconsManager {
                                 if (jsonArray.length() > 0)
                                     for (int j = 0; j < jsonArray.length(); j++) {
 
+                                        SearchContent searchContent = new SearchContent();
+                                        searchContent.setSubCategoryID(jsonArray.getJSONObject(j).getString("SpotCategoryID"));
+                                        searchContent.setCategoryID(response.getJSONObject(i).getString("SpotCategoryID"));
+                                        searchContent.setSpotId(jsonArray.getJSONObject(j).getString("SpotId"));
+                                        searchContent.setName(jsonArray.getJSONObject(j).getString("Name"));
+                                        searchContent.setImagePath(jsonArray.getJSONObject(j).getString("ImagePath"));
+                                        searchContentArrayList.add(searchContent);
                                         SubCategory subCategory = new SubCategory(jsonArray.getJSONObject(j).getString("SpotCategoryID"),
                                                 jsonArray.getJSONObject(j).getString("Name"),
                                                 jsonArray.getJSONObject(j).getString("SpotId"),
@@ -145,6 +161,14 @@ public class BeaconsManager {
                                         subCategoryList.add(subCategory);
                                     }
                             }
+
+                            SearchContent searchContent = new SearchContent();
+                            searchContent.setSpotId(response.getJSONObject(i).getString("SpotId"));
+                            searchContent.setCategoryID(response.getJSONObject(i).getString("SpotCategoryID"));
+                            searchContent.setName(response.getJSONObject(i).getString("Name"));
+                            searchContent.setImagePath(response.getJSONObject(i).getString("ImagePath"));
+                            searchContentArrayList.add(searchContent);
+
                             Category category = new Category(response.getJSONObject(i).getString("Name"), subCategoryList);
 
                             category.setSpotId(response.getJSONObject(i).getString("SpotId"));
@@ -154,6 +178,9 @@ public class BeaconsManager {
 
                             categoryArrayList.add(category);
                         }
+
+                        setSearchContentArrayList(searchContentArrayList);
+
                         EventBus.getDefault().post("GetCategory True");
                     } else
                         EventBus.getDefault().post("GetCategory False");
